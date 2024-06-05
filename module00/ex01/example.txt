@@ -1,0 +1,65 @@
+ADD
+Angelina
+Jolie
+Angie
+15551234
+Once secretly tried to adopt a penguin.
+ADD
+Leonardo
+DiCaprio
+Leo
+15555678
+Is afraid of butterflies.
+ADD
+Oprah
+Winfrey
+Oprah
+15559012
+Keeps a secret stash of chocolate under her desk.
+ADD
+Beyonce
+Knowles
+Queen Bey
+15553456
+Has a collection of socks with celebrity faces on them.
+ADD
+Tom
+Hanks
+Hanksy
+15557890
+Once accidentally photobombed a wedding.
+ADD
+Emma
+Watson
+Em
+15552345
+Is secretly a master at solving Rubik's cubes.
+ADD
+Will
+Smith
+Fresh Prince
+15556789
+Has a fear of birds, particularly pigeons.
+ADD
+Serena
+Williams
+Serena
+15554321
+Once got lost in her own house for an hour.
+ADD
+Jackie
+Chan
+Jackie
+15557777
+Once accidentally dyed his hair pink before a movie premiere.
+ADD
+Cristiano
+Ronaldo
+CR7
+15551111
+Secretly owns a vast collection of Spice Girls memorabilia.
+SEARCH
+1
+SEARCH
+6
+EXIT
