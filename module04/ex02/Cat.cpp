@@ -1,5 +1,4 @@
 #include "Cat.hpp"
-#include <iostream>
 
 /*-------------------------------CONSTRUCTORS---------------------------------*/
 

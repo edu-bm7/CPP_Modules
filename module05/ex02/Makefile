@@ -5,14 +5,18 @@ ifeq ($(shell c++ --version 2>&1 | grep -c "clang"),0)
     CXX = clang++
 endif
 
-NAME = Bureaucrat
+NAME = AForm
 OBJS_DIR := objects
 SRC_DIR := .
 INCLUDE_DIR := .
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98
 
 SRCS = $(addprefix $(SRC_DIR)/, main.cpp\
-	   							Bureaucrat.cpp)
+	   							Bureaucrat.cpp\
+								AForm.cpp\
+								ShrubberyCreationForm.cpp\
+								RobotomyRequestForm.cpp\
+								PresidentialPardonForm.cpp)
 OBJS = $(patsubst $(SRC_DIR)%.cpp, $(OBJS_DIR)%.o, $(SRCS))
 
 $(NAME): $(OBJS)

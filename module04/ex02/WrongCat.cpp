@@ -1,5 +1,4 @@
 #include "WrongCat.hpp"
-#include <iostream>
 
 /*-------------------------------CONSTRUCTORS---------------------------------*/
 

@@ -7,6 +7,10 @@
 #define MIN_GRADE 150
 #define MAX_GRADE 1
 
+
+// Forward declaration to resolve circular dependency
+class AForm;
+
 class Bureaucrat {
 public:
 	Bureaucrat();                        // Canonical Default Constructor
@@ -40,6 +44,8 @@ public:
 	// Member Functions
 	void incrementGrade();
 	void decrementGrade();
+	void signForm(AForm& form);
+	void executeForm(const AForm& form);
 
 private:
 	const std::string mName;

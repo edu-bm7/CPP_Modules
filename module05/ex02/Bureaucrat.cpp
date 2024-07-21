@@ -1,5 +1,5 @@
 #include "Bureaucrat.hpp"
-
+#include "AForm.hpp"
 /*-------------------------------CONSTRUCTORS---------------------------------*/
 
 Bureaucrat::Bureaucrat() : mName("undefined"), mGrade(MIN_GRADE)
@@ -43,7 +43,7 @@ Bureaucrat& Bureaucrat::operator=(const Bureaucrat& rhs)
 	// Guard Self-Assignment
 	if (this == &rhs) {
 		std::cout << "Bureaucrat " << rhs.getName()
-				  << " is the same as Bureaucrat " << mName
+				  << " is the same as the Bureaucrat " << mName
 				  << std::endl;
 		return *this;
 	}
@@ -52,8 +52,8 @@ Bureaucrat& Bureaucrat::operator=(const Bureaucrat& rhs)
 
 std::ostream& operator<<(std::ostream& os, const Bureaucrat& bureaucrat)
 {
-	os << bureaucrat.getName() << ", bureaucrat grade "
-	   << bureaucrat.getGrade() << ".";
+	os << bureaucrat.getName() << ", a Bureaucrat Grade "
+	   << bureaucrat.getGrade();
 	return os;
 }
 
@@ -69,11 +69,11 @@ const char* Bureaucrat::GradeTooLowException::what() const throw()
 	return "Bureaucrat's grade is too low!";
 }
 
+
 const char* Bureaucrat::UnassignableException::what() const throw()
 {
 	return "Bureaucrats are unassignable.";
 }
-
 /*----------------------------MEMBER FUNCTIONS--------------------------------*/
 
 const std::string& Bureaucrat::getName() const
@@ -100,4 +100,26 @@ void Bureaucrat::decrementGrade()
 		throw GradeTooLowException();
 	}
 	mGrade++;
+}
+
+void Bureaucrat::signForm(AForm& form)
+{
+	try {
+		form.beSigned(*this);
+		std::cout << mName << " signed form " << form.getName() << std::endl;
+	} catch (const std::exception& e) {
+		std::cout << mName << ", grade " << mGrade << " couldn't sign form "
+				  << form.getName() << " because: " << e.what() << std::endl;
+	}
+}
+
+void Bureaucrat::executeForm(const AForm& form)
+{
+	try {
+		form.execute(*this);
+		std::cout << mName << " executed form " << form.getName() << std::endl;
+	} catch (const std::exception& e) {
+		std::cout << mName << ", grade " << mGrade << " couldn't execute form "
+				  << form.getName() << " because: " << e.what() << std::endl;
+	}
 }

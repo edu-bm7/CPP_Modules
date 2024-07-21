@@ -1,6 +1,7 @@
 #ifndef BRAIN_HPP
 #define BRAIN_HPP
 
+#include <cstdlib>
 #include <iostream>
 #include <string>
 

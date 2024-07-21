@@ -3,6 +3,8 @@
 
 #include "Animal.hpp"
 #include "Brain.hpp"
+#include <iostream>
+#include <string>
 
 class Cat : public Animal {
 public:
