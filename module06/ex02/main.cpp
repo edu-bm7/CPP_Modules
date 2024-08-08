@@ -26,15 +26,15 @@ Base* createC()
 
 // Pointer to functions that returns a Base* so we don't need if's and switch
 // statements
-typedef Base* (*FunctionPointer)();
+typedef Base* (*CreateClass)();
 
 Base* generate()
 {
-	FunctionPointer functionPointers[] = {createA, createB, createC};
+	CreateClass createClasses[] = {createA, createB, createC};
 
 	int randomIndex = rand() % 3;
 
-	return functionPointers[randomIndex]();
+	return createClasses[randomIndex]();
 }
 
 // Functions to identify the type
@@ -53,16 +53,16 @@ std::string identifyC(Base* p)
 	return dynamic_cast<C*>(p) ? "C" : "";
 }
 
-typedef std::string (*GetTypeFunction)(Base*);
+typedef std::string (*IdentifyClass)(Base*);
 
 void identify(Base* p)
 {
 	const std::string classTypes[] = {"A", "B", "C"};
-	GetTypeFunction getTypeFunctions[] = {identifyA, identifyB, identifyC};
-	size_t arr_length = sizeof(getTypeFunctions) / sizeof(GetTypeFunction);
+	IdentifyClass identifyClasses[] = {identifyA, identifyB, identifyC};
+	size_t arr_length = sizeof(identifyClasses) / sizeof(IdentifyClass);
 
 	for (size_t i = 0; i < arr_length; ++i) {
-		if (getTypeFunctions[i](p) == classTypes[i]) {
+		if (identifyClasses[i](p) == classTypes[i]) {
 			std::cout << "This is a " << classTypes[i] << " Class pointer."
 					  << std::endl;
 			return;
