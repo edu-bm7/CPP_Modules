@@ -2,28 +2,94 @@
 #define ARRAY_HPP
 
 #include <cstdlib>
-#include <ctime>
 #include <iostream>
 #include <stdexcept>
 
 template<typename T>
 class Array {
 public:
-	Array();                   // Canonical Default Constructor
-	Array(const Array& other); // Canonical Copy Constructor
-	~Array();                  // Canonical Default Destructor
+	// Canonical Default Constructor
+	Array() : mElements(NULL), mSize(0)
+	{
+		std::cout << "Empty Array Created." << std::endl;
+	}
 
-	Array(unsigned int n);
-	Array& operator=(const Array& rhs); // Canonical Assignment Operator
-	T& operator[](const unsigned int index) const;
+	// Canonical Default Copy Constructor
+	Array(const Array<T>& other) : mElements(NULL), mSize(other.mSize)
+	{
+		if (!mSize) {
+			return;
+		}
 
-	unsigned int size() const;
+		mElements = new T[mSize];
+		for (unsigned int i = 0; i < mSize; ++i) {
+			mElements[i] = other.mElements[i];
+		}
+		std::cout << "Elements of array deep copied via Copy Constructor." << std::endl;
+	}
+
+	// Canonical Default Destructor
+	~Array()
+	{
+		if (mElements) {
+			delete[] mElements;
+		}
+		std::cout << "Array Destructor called." << std::endl;
+	}
+
+	// Parameterized Constructor
+	Array(unsigned int n) : mElements(NULL), mSize(n)
+	{
+		if (!n) {
+			return;
+		}
+
+		mElements = new T[mSize]();
+		std::cout << "Array with " << mSize
+				  << " elements has been created and initialized." << std::endl;
+	}
+
+	// Canonical Assignment Operator
+	Array<T>& operator=(const Array<T>& rhs)
+	{
+		// Guard Self-Assignment
+		if (this == &rhs) {
+			return *this;
+		}
+
+		if (mElements || !rhs.mSize) {
+			delete[] mElements;
+			if (!rhs.mSize) {
+				mSize = 0;
+				return *this;
+			}
+		}
+		mSize = rhs.mSize;
+		mElements = new T[mSize];
+		for (unsigned int i = 0; i < mSize; ++i) {
+			mElements[i] = rhs.mElements[i];
+		}
+		std::cout << "Array Construction done by Assignment Operator." << std::endl;
+	}
+
+	// Subscript Operator Overload
+	T& operator[](const unsigned int index) const
+	{
+		if (index >= mSize) {
+			throw std::out_of_range("Array Index out of bounds");
+		}
+		return mElements[index];
+	}
+
+	// Getter Member Function
+	unsigned int size() const
+	{
+		return mSize;
+	}
 
 private:
 	T* mElements;
 	unsigned int mSize;
 };
-
-#include "Array.tpp"
 
 #endif // ARRAY_HPP
