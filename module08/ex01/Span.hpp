@@ -32,23 +32,24 @@ public:
 	void addNumber(int number);
 	unsigned int shortestSpan() const;
 	unsigned int longestSpan() const;
-	template<typename InputIterator>
+
+	template< typename InputIterator >
 	void addNumbers(InputIterator first, InputIterator last);
 
 	// Getters
 	unsigned int getSize() const;
-	std::vector<int> getNumbers() const;
+	std::vector< int > getNumbers() const;
 
 private:
-	std::vector<int> mNumbers;
+	std::vector< int > mNumbers;
 	unsigned int mSize;
 };
 
 // Templates
-template<typename InputIterator>
+template< typename InputIterator >
 void Span::addNumbers(InputIterator first, InputIterator last)
 {
-	if (std::distance(first, last) > static_cast<long>(mSize - mNumbers.size())) {
+	if (std::distance(first, last) > static_cast< long >(mSize - mNumbers.size())) {
 		throw SpanFullException();
 	}
 
