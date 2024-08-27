@@ -2,18 +2,18 @@
 
 /*-------------------------------CONSTRUCTORS---------------------------------*/
 
-Span::Span() : mNumbers(), mSize(0)
+Span::Span() : mNumbers(), mMaxSize(0)
 {
 	return;
 }
 
 Span::Span(const Span& other) : mNumbers(other.mNumbers),
-								mSize(other.mSize)
+								mMaxSize(other.mMaxSize)
 {
 	return;
 }
 
-Span::Span(unsigned int n) : mSize(n)
+Span::Span(unsigned int n) : mMaxSize(n)
 {
 	return;
 }
@@ -34,21 +34,21 @@ Span& Span::operator=(const Span& rhs)
 		return *this;
 	}
 
-	mSize = rhs.mSize;
+	mMaxSize = rhs.mMaxSize;
 	mNumbers = rhs.mNumbers;
 	return *this;
 }
 
 std::ostream& operator<<(std::ostream& os, const Span& span)
 {
-	std::vector<int>::iterator it;
-	std::vector<int> vec = span.getNumbers();
+	std::vector< int >::iterator it;
+	std::vector< int > vec = span.getNumbers();
 
 	os << "Span Max Capacity: " << span.getSize() << std::endl;
-	os << "Span Elements:";
+	os << "Span Elements:" << std::endl;
 
 	for (it = vec.begin(); it != vec.end(); ++it) {
-		os << " " << *it;
+		os << *it << " ";
 	}
 	return os;
 }
@@ -57,10 +57,10 @@ std::ostream& operator<<(std::ostream& os, const Span& span)
 
 unsigned int Span::getSize() const
 {
-	return mSize;
+	return mMaxSize;
 }
 
-std::vector<int> Span::getNumbers() const
+std::vector< int > Span::getNumbers() const
 {
 	return mNumbers;
 }
@@ -81,7 +81,7 @@ const char* Span::SpanNotPossibleException::what() const throw()
 
 void Span::addNumber(int number)
 {
-	if (mNumbers.size() < mSize) {
+	if (mNumbers.size() < mMaxSize) {
 		mNumbers.push_back(number);
 	} else {
 		throw SpanFullException();
@@ -94,12 +94,12 @@ unsigned int Span::shortestSpan() const
 		throw SpanNotPossibleException();
 	}
 
-	unsigned int shortest_span = std::numeric_limits<unsigned int>::max();
-	std::vector<int> vec = mNumbers;
+	unsigned int shortest_span = std::numeric_limits< unsigned int >::max();
+	std::vector< int > vec = mNumbers;
 	std::sort(vec.begin(), vec.end());
 
-	for (std::vector<int>::iterator it = vec.begin(); it != vec.end() - 1; ++it) {
-		unsigned int span = static_cast<unsigned int>(*(it + 1) - *it);
+	for (std::vector< int >::iterator it = vec.begin(); it != vec.end() - 1; ++it) {
+		unsigned int span = static_cast< unsigned int >(*(it + 1) - *it);
 		if (span < shortest_span) {
 			shortest_span = span;
 		}
@@ -110,5 +110,9 @@ unsigned int Span::shortestSpan() const
 
 unsigned int Span::longestSpan() const
 {
+	if (mNumbers.size() < 2) {
+		throw SpanNotPossibleException();
+	}
+
 	return *std::max_element(mNumbers.begin(), mNumbers.end()) - *std::min_element(mNumbers.begin(), mNumbers.end());
 }

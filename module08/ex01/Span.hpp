@@ -42,14 +42,14 @@ public:
 
 private:
 	std::vector< int > mNumbers;
-	unsigned int mSize;
+	unsigned int mMaxSize;
 };
 
 // Templates
 template< typename InputIterator >
 void Span::addNumbers(InputIterator first, InputIterator last)
 {
-	if (std::distance(first, last) > static_cast< long >(mSize - mNumbers.size())) {
+	if (std::distance(first, last) > static_cast< long >(mMaxSize - mNumbers.size())) {
 		throw SpanFullException();
 	}
 
