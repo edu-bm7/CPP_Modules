@@ -4,9 +4,9 @@
 
 int main(void)
 {
-	std::vector<int> v;
-	std::vector<int>::iterator it;
-	std::vector<int>::iterator it_std;
+	std::vector< int > v;
+	std::vector< int >::iterator it;
+	std::vector< int >::iterator it_std;
 	for (int i = 0; i < 11; i++) {
 		v.push_back(95 + i);
 	}

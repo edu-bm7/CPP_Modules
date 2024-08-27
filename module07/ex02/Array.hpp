@@ -5,7 +5,7 @@
 #include <iostream>
 #include <stdexcept>
 
-template<typename T>
+template< typename T >
 class Array {
 public:
 	// Canonical Default Constructor
@@ -15,7 +15,7 @@ public:
 	}
 
 	// Canonical Default Copy Constructor
-	Array(const Array<T>& other) : mElements(NULL), mSize(other.mSize)
+	Array(const Array< T >& other) : mElements(NULL), mSize(other.mSize)
 	{
 		if (!mSize) {
 			return;
@@ -50,7 +50,7 @@ public:
 	}
 
 	// Canonical Assignment Operator
-	Array<T>& operator=(const Array<T>& rhs)
+	Array< T >& operator=(const Array< T >& rhs)
 	{
 		// Guard Self-Assignment
 		if (this == &rhs) {
@@ -73,13 +73,22 @@ public:
 	}
 
 	// Subscript Operator Overload
-	T& operator[](const unsigned int index) const
+	const T& operator[](unsigned int index) const
 	{
 		if (index >= mSize) {
 			throw std::out_of_range("Array Index out of bounds");
 		}
 		return mElements[index];
 	}
+
+	T& operator[](unsigned int index)
+	{
+		if (index >= mSize) {
+			throw std::out_of_range("Array Index out of bounds");
+		}
+		return mElements[index];
+	}
+
 
 	// Getter Member Function
 	unsigned int size() const

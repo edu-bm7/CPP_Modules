@@ -6,21 +6,35 @@
 #define MAX_VAL 750
 int main(int, char**)
 {
+
 	{
-		Array<int> numbers(42);
-		std::cout << "Should be default (0): " << numbers[0] << std::endl;
+		Array< int > numbers;
+		std::cout << "Size of a empty Array: " << numbers.size() << std::endl;
+	}
+
+	{
+		Array< int > numbers(42);
+		std::cout << "Should be initialized to the default value (0): "
+				  << numbers[0] << std::endl;
 		numbers[0] = 3;
 		std::cout << "Should be new value (3): " << numbers[0] << std::endl;
 		std::cout << "Should fail:" << std::endl;
 		try {
 			numbers[42];
 		} catch (const std::exception& e) {
-			std::cerr << e.what() << '\n';
+			std::cerr << e.what() << std::endl;
 		}
 	}
 
 	{
-		Array<int> numbers(MAX_VAL);
+		const Array< int > numbers(42);
+		std::cout << "Testing const correctness (read-only): " << numbers[0] << std::endl;
+		// Uncomment the line bellow to check the compile error with read-only instance.
+		// numbers[0] = 3;
+	}
+
+	{
+		Array< int > numbers(MAX_VAL);
 		int* mirror = new int[MAX_VAL];
 		srand(time(NULL));
 		for (int i = 0; i < MAX_VAL; i++) {
@@ -30,8 +44,8 @@ int main(int, char**)
 		}
 		//SCOPE
 		{
-			Array<int> tmp = numbers;
-			Array<int> test(tmp);
+			Array< int > tmp = numbers;
+			Array< int > test(tmp);
 		}
 
 		for (int i = 0; i < MAX_VAL; i++) {
@@ -58,7 +72,7 @@ int main(int, char**)
 	}
 
 	{
-		Array<std::string> name(4);
+		Array< std::string > name(4);
 		int index;
 
 		name[0] = "Peter";
