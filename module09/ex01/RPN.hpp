@@ -1,6 +1,7 @@
 #ifndef RPN_HPP
 #define RPN_HPP
 
+#include <cerrno>
 #include <cstdlib>
 #include <exception>
 #include <iostream>
@@ -34,10 +35,10 @@ public:
 	RPN& operator=(const RPN& rhs); // Canonical Assignment Operator
 
 private:
-	std::stack< int > mStack;
+	std::stack< long > mStack;
 	bool isStringDigit(const std::string& str);
 	bool isOperator(std::string& token);
-	int doOperation(std::string& token);
+	long doOperation(std::string& token);
 };
 
 #endif // RPN_HPP

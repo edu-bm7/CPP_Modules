@@ -75,21 +75,77 @@ std::map< std::string, float >& BitcoinExchange::stringDBToMap(
 		char delimiter = ',')
 {
 	std::istringstream ss(s);
-	std::string field, key;
+	std::string btcRate, date;
 
-	if (std::getline(ss, key, delimiter) && std::getline(ss, field, delimiter)) {
+	if (std::getline(ss, date, delimiter) && std::getline(ss, btcRate)) {
 		char* endptr;
 		errno = 0;
-		float value = std::strtof(field.c_str(), &endptr);
-		if (endptr == field.c_str() || errno == ERANGE) {
+		float value = std::strtof(btcRate.c_str(), &endptr);
+		if (endptr == btcRate.c_str() || errno == ERANGE) {
 			throw DataBaseFileInvalid();
 		} else if (value < 0) {
 			throw DataBaseFileInvalid();
 		} else {
-			result[key] = value;
+			result[date] = value;
 		}
 	}
 	return result;
+}
+
+void BitcoinExchange::printValues(const std::string& inputFile)
+{
+	std::string line;
+	std::ifstream input(inputFile.c_str());
+	bool firstHeader = true;
+
+	if (!input.is_open()) {
+		std::cerr << "Error: could not open file." << std::endl;
+		return;
+	}
+	while (std::getline(input, line)) {
+		if (firstHeader) {
+			if (line == "date | value") {
+				firstHeader = false;
+				continue;
+			}
+			throw InputFileInvalid();
+		}
+		std::string::iterator lineEnd = remove_if(line.begin(), line.end(), IsSpace());
+		line.erase(lineEnd, line.end());
+
+		std::istringstream iss(line);
+		std::string date;
+		std::string btcAmount;
+		float value;
+
+
+		// Split the line into date and value parts
+		if (std::getline(iss, date, '|') && std::getline(iss, btcAmount)) {
+			errno = 0;
+			char* endptr;
+			value = std::strtof(btcAmount.c_str(), &endptr);
+
+			if (errno == ERANGE || value > static_cast< float >(std::numeric_limits< int >::max()) || value > 1000) {
+				std::cerr << "Error: too large a number." << std::endl;
+				continue;
+			}
+			if (!isValidDate(date)) {
+				std::cerr << "Error: bad input => " << date << std::endl;
+				continue;
+			}
+			if (value < 0) {
+				std::cerr << "Error: not a positive number." << std::endl;
+				continue;
+			}
+
+			float btcPrice = getBitcoinRate(date);
+			std::cout << date << " => " << value << " = "
+					  << (value * btcPrice)
+					  << std::endl;
+		} else {
+			std::cerr << "Error: bad input => " << line << std::endl;
+		}
+	}
 }
 
 bool BitcoinExchange::stringIsDigit(std::string& field)
@@ -174,62 +230,4 @@ float BitcoinExchange::getBitcoinRate(const std::string& date)
 		--it;
 	}
 	return it->second;
-}
-
-void BitcoinExchange::printValues(const std::string& inputFile)
-{
-	std::string line;
-	std::ifstream input(inputFile.c_str());
-	bool firstHeader = true;
-
-	if (!input.is_open()) {
-		std::cerr << "Error: could not open file." << std::endl;
-		return;
-	}
-	while (std::getline(input, line)) {
-		if (firstHeader) {
-			if (line == "date | value") {
-				firstHeader = false;
-				continue;
-			}
-			throw InputFileInvalid();
-		}
-		std::string::iterator lineEnd = remove_if(line.begin(), line.end(), IsSpace());
-		line.erase(lineEnd, line.end());
-
-		std::istringstream iss(line);
-		std::string date;
-		std::string valueStr;
-		float value;
-
-
-		// Split the line into date and value parts
-		if (std::getline(iss, date, '|') && std::getline(iss, valueStr)) {
-			errno = 0;
-			char* endptr;
-			value = std::strtof(valueStr.c_str(), &endptr);
-
-			if (errno == ERANGE || value > static_cast< float >(std::numeric_limits< int >::max())) {
-				std::cerr << "Error: too large a number." << std::endl;
-			}
-			if (!isValidDate(date)) {
-				std::cerr << "Error: bad input => " << date << std::endl;
-				continue;
-			}
-			if (value < 0) {
-				std::cerr << "Error: not a positive number." << std::endl;
-				continue;
-			} else if (value > 1000) {
-				std::cerr << "Error: to large a number." << std::endl;
-				continue;
-			}
-
-			float btcValue = getBitcoinRate(date);
-			std::cout << date << " => " << value << " = "
-					  << (value * btcValue)
-					  << std::endl;
-		} else {
-			std::cerr << "Error: bad input => " << line << std::endl;
-		}
-	}
 }

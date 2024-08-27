@@ -52,11 +52,8 @@ int main(int argc, char* argv[])
 
 
 	std::cout << "Before: ";
-	for (std::size_t i = 0; i < vec.size() && i < 19; ++i) {
+	for (std::size_t i = 0; i < vec.size(); ++i) {
 		std::cout << vec[i] << " ";
-	}
-	if (vec.size() > 19) {
-		std::cout << "[...]\n";
 	}
 	std::cout << std::endl;
 	PmergeMe Ford_Johnson;
@@ -74,11 +71,8 @@ int main(int argc, char* argv[])
 
 
 	std::cout << "After(std::vector<T>):\t";
-	for (std::size_t i = 0; i < vec.size() && i < 19; ++i) {
+	for (std::size_t i = 0; i < vec.size(); ++i) {
 		std::cout << vec[i] << " ";
-	}
-	if (vec.size() > 19) {
-		std::cout << "[...]\n";
 	}
 	std::cout << std::endl;
 	if (is_sorted(vec)) {
@@ -102,21 +96,18 @@ int main(int argc, char* argv[])
 	std::cout << "After(std::deque<T>):\t";
 	std::deque< long >::iterator it; // Change this to your list type
 	int i = 0;
-	for (it = deq.begin(); it != deq.end() && i < 19; ++it, ++i) {
+	for (it = deq.begin(); it != deq.end(); ++it, ++i) {
 		std::cout << *it << " ";
-	}
-	if (deq.size() > 19) {
-		std::cout << "[...]\n";
 	}
 	std::cout << std::endl;
 	if (!is_sorted(deq)) {
-		std::cerr << "DEQUE NOT SORTED!!!!!!" << std::endl;
+		std::cerr << "DEQUE NOT SORTED!" << std::endl;
 	} else {
 		std::cout << "DEQUE SORTED!" << std::endl;
 	}
 
 	std::cout << "Time to process a range of: " << argc - 1 << " elements with std::vector<T> : " << elapsed_time_vector << " milliseconds" << std::endl;
-	std::cout << "Time to process a range of: " << argc - 1 << " elements with std::list<T> : " << elapsed_time_list << " milliseconds" << std::endl;
+	std::cout << "Time to process a range of: " << argc - 1 << " elements with std::deque<T> : " << elapsed_time_list << " milliseconds" << std::endl;
 
 	return 0;
 }

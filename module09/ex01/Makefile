@@ -9,7 +9,7 @@ NAME = RPN
 OBJS_DIR := objects
 SRC_DIR := .
 INCLUDE_DIR := .
-CXXFLAGS = -Wall -Wextra -Werror -std=c++98
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -g3
 
 SRCS = $(addprefix $(SRC_DIR)/, main.cpp\
 	   							RPN.cpp)

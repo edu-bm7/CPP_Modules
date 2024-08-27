@@ -1,4 +1,5 @@
 #include "RPN.hpp"
+#include <limits>
 
 /*-------------------------------CONSTRUCTORS---------------------------------*/
 RPN::RPN() : mStack()
@@ -23,7 +24,13 @@ RPN::RPN(const std::string& inputStr) : mStack()
 
 	while (std::getline(iss, token, delimiter)) {
 		if (isStringDigit(token)) {
-			mStack.push(std::atoi(token.c_str()));
+			char* end;
+			errno = 0;
+			long value = std::strtol(token.c_str(), &end, 10);
+			if (errno == ERANGE) {
+				throw InvalidInput();
+			}
+			mStack.push(value);
 		} else if (isOperator(token)) {
 			mStack.push(doOperation(token));
 		} else {
@@ -95,13 +102,13 @@ bool RPN::isOperator(std::string& token)
 	return true;
 }
 
-int RPN::doOperation(std::string& token)
+long RPN::doOperation(std::string& token)
 {
 	if (mStack.size() < 2) {
 		throw InvalidOperator();
 	}
 
-	int a, b;
+	long a, b;
 
 	a = mStack.top();
 	mStack.pop();
@@ -109,12 +116,30 @@ int RPN::doOperation(std::string& token)
 	mStack.pop();
 
 	if (token == "+") {
+		if (a > 0 && b > std::numeric_limits< long >::max() - a) {
+			throw InvalidOperation(); // Overflow
+		}
+		if (a < 0 && b < std::numeric_limits< long >::min() - a) {
+			throw InvalidOperation(); // Underflow
+		}
 		return b + a;
 	} else if (token == "-") {
+		if (a > 0 && b < std::numeric_limits< long >::min() + a) {
+			throw InvalidOperation(); // Underflow
+		}
+		if (a < 0 && b > std::numeric_limits< long >::max() + a) {
+			throw InvalidOperation(); // Overflow
+		}
 		return b - a;
 	} else if (token == "*") {
+		if (a != 0 && (b > std::numeric_limits< long >::max() / a || b < std::numeric_limits< long >::min() / a)) {
+			throw InvalidOperation(); // Overflow or Underflow
+		}
 		return b * a;
 	}
 
+	if (a == 0) {
+		throw InvalidOperation();
+	}
 	return b / a;
 }
