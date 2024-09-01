@@ -75,11 +75,6 @@ int main(int argc, char* argv[])
 		std::cout << vec[i] << " ";
 	}
 	std::cout << std::endl;
-	if (is_sorted(vec)) {
-		std::cout << "VECTOR SORTED!" << std::endl;
-	} else {
-		std::cerr << "VECTOR NOT SORTED!" << std::endl;
-	}
 	// Start the Deque Timer
 	std::clock_t start_time_list = std::clock();
 
@@ -100,6 +95,11 @@ int main(int argc, char* argv[])
 		std::cout << *it << " ";
 	}
 	std::cout << std::endl;
+	if (is_sorted(vec)) {
+		std::cout << "VECTOR SORTED!" << std::endl;
+	} else {
+		std::cerr << "VECTOR NOT SORTED!" << std::endl;
+	}
 	if (!is_sorted(deq)) {
 		std::cerr << "DEQUE NOT SORTED!" << std::endl;
 	} else {

@@ -132,12 +132,12 @@ void PmergeMe::sortVectorImp(typename std::vector< T >::iterator first, typename
 
 	////////////////////////////////////////////////////////////
 	// Group elements by pairs and sort each pair
-	VectorIterator end = has_stray ? last - (1 * itSize) : last;
+	VectorIterator end = has_stray ? last - itSize : last;
 	for (VectorIterator it = first; it != end; it += 2 * itSize) {
 		T value1 = *(it + (1 * itSize + itSize - 1));
 		T value2 = *(it + itSize - 1);
 		if (value1 < value2) {
-			std::iter_swap(it, it + (1 * itSize));
+			std::iter_swap(it, it + itSize);
 			if (itSize > 1) {
 				std::size_t i = itSize;
 				std::size_t n = 1;
@@ -162,7 +162,7 @@ void PmergeMe::sortVectorImp(typename std::vector< T >::iterator first, typename
 	// b1, a1 are already part of the main chain, so we can just push the first 2 elements
 	main_chain.reserve(size + 1);
 	main_chain.push_back(first);
-	main_chain.push_back(first + (1 * itSize));
+	main_chain.push_back(first + itSize);
 
 	// Vector to store iterators pointing to the pending elements bi:bj
 	// The pend_chain will hold a maximum of ((size + 1) / 2) - 1 elements, so we can also reserve it
@@ -172,7 +172,7 @@ void PmergeMe::sortVectorImp(typename std::vector< T >::iterator first, typename
 	// Iterate through the remaining elements, adding them to the pending chain
 	for (VectorIterator it = first + (2 * itSize); it != end; it += (2 * itSize)) {
 		typename std::vector< VectorIterator >::iterator tmp;
-		tmp = main_chain.insert(main_chain.end(), it + (1 * itSize));
+		tmp = main_chain.insert(main_chain.end(), it + itSize);
 		pend_chain.push_back(*tmp);
 	}
 
@@ -295,7 +295,7 @@ void PmergeMe::sortDequeImp(typename std::deque< T >::iterator first, typename s
 
 	DequeIterator end = has_stray ? last - (1 * itSize) : last;
 	for (DequeIterator it = first; it != end; it += 2 * itSize) {
-		T value1 = *(it + (1 * itSize + itSize - 1));
+		T value1 = *(it + ((2 * itSize) - 1));
 		T value2 = *(it + itSize - 1);
 		if (value1 < value2) {
 			std::iter_swap(it, it + (1 * itSize));
@@ -329,7 +329,7 @@ void PmergeMe::sortDequeImp(typename std::deque< T >::iterator first, typename s
 	// Iterate through the remaining elements, adding them to the pending chain
 	for (DequeIterator it = first + (2 * itSize); it != end; it += (2 * itSize)) {
 		typename std::deque< DequeIterator >::iterator tmp;
-		tmp = main_chain.insert(main_chain.end(), (it + 1 * itSize));
+		tmp = main_chain.insert(main_chain.end(), (it + itSize));
 		pend_chain.push_back(*tmp);
 	}
 
