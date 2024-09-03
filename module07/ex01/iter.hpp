@@ -3,11 +3,19 @@
 
 #include <cstdlib>
 
-template< typename T, typename F >
-void iter(T* arr, std::size_t len, F function)
+template< typename T >
+void iter(T* arr, std::size_t len, void (*f)(T&))
 {
 	for (std::size_t i = 0; i < len; ++i) {
-		function(arr[i]);
+		f(arr[i]);
+	}
+}
+
+template< typename T >
+void iter(T* arr, std::size_t len, void (*f)(const T&))
+{
+	for (std::size_t i = 0; i < len; ++i) {
+		f(arr[i]);
 	}
 }
 

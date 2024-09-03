@@ -18,7 +18,7 @@ int main()
 	int arr[] = {4, 2, 3, 1, 5, 6};
 	size_t arr_len = sizeof(arr) / sizeof(int);
 	std::cout << "Int Array: " << std::endl;
-	::iter< int >(arr, arr_len, printValues< int >);
+	::iter< int >(arr, arr_len, printValues< const int >);
 	std::cout << std::endl;
 
 	std::cout << "Float Array: " << std::endl;
